@@ -1,0 +1,44 @@
+version: '2.4'
+services:
+
+  webmail-server-1: 
+    image: roundcube/roundcubemail
+    container_name: webmail-server-1
+    hostname: webmail.myhost.com
+    ports: 
+      - "8000:80"
+    networks:
+      mail:
+        aliases:
+          - webmail.myhost.com
+    environment: 
+      - ROUNDCUBEMAIL_DEFAULT_HOST=imap.myhost.com
+      - ROUNDCUBEMAIL_DEFAULT_PORT=3143 
+      - ROUNDCUBEMAIL_SMTP_SERVER=smtp.myhost.com 
+      - ROUNDCUBEMAIL_SMTP_PORT=3025 
+
+
+  mail-server:
+    image: greenmail/standalone
+    container_name: mail-server
+    hostname: greenmail.myhost.com
+    ports:
+      - "3110:3110"
+      - "3025:3025"
+      - "3143:3143"
+      - "3465:3465"
+      - "3993:3993"
+      - "3995:3995" 
+    networks:
+      mail:
+        aliases:
+          - greenmail.myhost.com
+          - smtp.myhost.com
+          - imap.myhost.com
+
+networks:
+  mail:
+    driver: bridge
+
+
+
