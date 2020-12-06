@@ -35,7 +35,9 @@ To configure the addresses and ports of the servers, environment variables are u
 | IMAP_SERVER_PORT | 3143 | imap server exposition port | 
 | SMTP_SERVER_HOSTNAME | smtp.myhost.com | smtp server hostname on docker network | 
 | SMTP_SERVER_PORT | 3025 | smtp server exposition port| 
-| MAIL_SERVER_HOSTNAME | mail.myhost.com | mock mail ( imap & smtp ) server hostname on docker network. It is using for mail service hostname on docker |   
+| MAIL_SERVER_HOSTNAME | mail.myhost.com | mock mail ( imap & smtp ) server hostname on docker network. It is using for mail service hostname on docker |
+
+
 
  
 
