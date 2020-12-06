@@ -27,8 +27,8 @@ The project contains only one file : *docker-compose.yml*. Two services are decl
 
 To configure the addresses and ports of the servers, environment variables are used. An .env.sample file is provided as an example.
 
-| variable | default value | description | 
-| -------- | ------------- | ----------- |
+| variable | default value | description |
+| --- | --- | --- |
 | WEBMAIL_HOSTNAME | webmail.myhost.com | webmail hostname on docker network |
 | WEBMAIL_PORT | 8000 | webmail exposition port |
 | IMAP_SERVER_HOSTNAME |imap.myhost.com | imap server hostname on docker network | 
@@ -36,6 +36,7 @@ To configure the addresses and ports of the servers, environment variables are u
 | SMTP_SERVER_HOSTNAME | smtp.myhost.com | smtp server hostname on docker network | 
 | SMTP_SERVER_PORT | 3025 | smtp server exposition port| 
 | MAIL_SERVER_HOSTNAME | mail.myhost.com | mock mail ( imap & smtp ) server hostname on docker network. It is using for mail service hostname on docker |
+
 
 
 
