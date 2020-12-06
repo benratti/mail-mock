@@ -1,43 +1,43 @@
 version: '2.4'
 services:
 
-  webmail-server-1: 
+  webmail-server: 
     image: roundcube/roundcubemail
-    container_name: webmail-server-1
-    hostname: webmail.myhost.com
+    container_name: webmail-server
+    hostname: ${WEBMAIL_HOSTNAME}
     ports: 
       - "8000:80"
     networks:
-      mail:
+      mail_network:
         aliases:
-          - webmail.myhost.com
+          - ${WEBMAIL_HOSTNAME}
     environment: 
-      - ROUNDCUBEMAIL_DEFAULT_HOST=imap.myhost.com
-      - ROUNDCUBEMAIL_DEFAULT_PORT=3143 
-      - ROUNDCUBEMAIL_SMTP_SERVER=smtp.myhost.com 
-      - ROUNDCUBEMAIL_SMTP_PORT=3025 
+      - ROUNDCUBEMAIL_DEFAULT_HOST=${IMAP_SERVER_HOSTNAME}
+      - ROUNDCUBEMAIL_DEFAULT_PORT=${IMAP_SERVER_PORT} 
+      - ROUNDCUBEMAIL_SMTP_SERVER=${SMTP_SERVER_HOSTNAME} 
+      - ROUNDCUBEMAIL_SMTP_PORT=${SMTP_SERVER_PORT} 
 
 
   mail-server:
     image: greenmail/standalone
     container_name: mail-server
-    hostname: greenmail.myhost.com
+    hostname: ${MAIL_SERVER_HOSTNAME}
     ports:
       - "3110:3110"
-      - "3025:3025"
-      - "3143:3143"
+      - "${SMTP_SERVER_PORT}:3025"
+      - "${IMAP_SERVER_PORT}:3143"
       - "3465:3465"
       - "3993:3993"
       - "3995:3995" 
     networks:
-      mail:
+      mail_network:
         aliases:
-          - greenmail.myhost.com
-          - smtp.myhost.com
-          - imap.myhost.com
+          - ${MAIL_SERVER_HOSTNAME}
+          - ${SMTP_SERVER_HOSTNAME}
+          - ${IMAP_SERVER_HOSTNAME}
 
 networks:
-  mail:
+  mail_network:
     driver: bridge
 
 
