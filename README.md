@@ -7,8 +7,23 @@ The project mail-mock is docker-compose based tool for developers. It mocks a im
 To start mail and webmail server, use docker-compose
 
 ```bash
-$ docker-compose --env-file .env.sample up -d
+$ docker-compose --env-file .env.sample up --build -d
 Creating network "mail_mail_network" with driver "bridge"
+Building mail-server
+Step 1/4 : FROM greenmail/standalone:1.6.1
+ ---> 002988723ad0
+Step 2/4 : USER root
+ ---> Using cache
+ ---> 31396ac5ceea
+Step 3/4 : RUN apt-get update && apt-get install -y netcat
+ ---> Using cache
+ ---> 250b77d123e1
+Step 4/4 : USER greenmail
+ ---> Using cache
+ ---> b7fe8bf6971e
+
+Successfully built b7fe8bf6971e
+Successfully tagged mail_mail-server:latest
 Creating webmail-server ... done
 Creating mail-server    ... done
 

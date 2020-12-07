@@ -16,10 +16,16 @@ services:
       - ROUNDCUBEMAIL_DEFAULT_PORT=${IMAP_SERVER_PORT} 
       - ROUNDCUBEMAIL_SMTP_SERVER=${SMTP_SERVER_HOSTNAME} 
       - ROUNDCUBEMAIL_SMTP_PORT=${SMTP_SERVER_PORT} 
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://${WEBMAIL_HOSTNAME}"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+      start_period: 3s
 
 
   mail-server:
-    image: greenmail/standalone:1.6.1
+    build: ./docker/greenmail-healthcheck
     container_name: mail-server
     hostname: ${MAIL_SERVER_HOSTNAME}
     ports:
@@ -35,6 +41,13 @@ services:
           - ${MAIL_SERVER_HOSTNAME}
           - ${SMTP_SERVER_HOSTNAME}
           - ${IMAP_SERVER_HOSTNAME}
+    healthcheck:
+      test: "nc -z localhost 3025 && nc -z localhost 3143"
+      interval: 5s
+      timeout: 3s
+      retries: 3
+      start_period: 3s
+
 
 networks:
   mail_network:
