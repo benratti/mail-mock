@@ -2,7 +2,7 @@ version: '3.8'
 services:
 
   webmail-server: 
-    image: roundcube/roundcubemail:1.4.x-apache
+    image: roundcube/roundcubemail:1.5.x-apache
     container_name: webmail-server
     hostname: ${WEBMAIL_HOSTNAME}
     ports: 

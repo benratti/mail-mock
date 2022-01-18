@@ -1,4 +1,4 @@
-FROM greenmail/standalone:1.6.1
+FROM greenmail/standalone:latest
 
 USER root
 
