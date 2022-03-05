@@ -4,20 +4,20 @@ services:
   webmail-server: 
     image: roundcube/roundcubemail:1.5.x-apache
     container_name: webmail-server
-    hostname: ${WEBMAIL_HOSTNAME}
+    hostname: webmail.docker
     ports: 
       - "${WEBMAIL_PORT}:80"
     networks:
       mail_network:
         aliases:
-          - ${WEBMAIL_HOSTNAME}
+          - webmail.docker
     environment: 
-      - ROUNDCUBEMAIL_DEFAULT_HOST=${IMAP_SERVER_HOSTNAME}
-      - ROUNDCUBEMAIL_DEFAULT_PORT=${IMAP_SERVER_PORT} 
-      - ROUNDCUBEMAIL_SMTP_SERVER=${SMTP_SERVER_HOSTNAME} 
-      - ROUNDCUBEMAIL_SMTP_PORT=${SMTP_SERVER_PORT} 
+      - ROUNDCUBEMAIL_DEFAULT_HOST=mail.docker
+      - ROUNDCUBEMAIL_DEFAULT_PORT=3143
+      - ROUNDCUBEMAIL_SMTP_SERVER=mail.docker 
+      - ROUNDCUBEMAIL_SMTP_PORT=3025
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://${WEBMAIL_HOSTNAME}"]
+      test: ["CMD", "curl", "-f", "http://localhost"]
       interval: 5s
       timeout: 3s
       retries: 3
@@ -27,20 +27,20 @@ services:
   mail-server:
     build: ./docker/greenmail-healthcheck
     container_name: mail-server
-    hostname: ${MAIL_SERVER_HOSTNAME}
+    hostname: mail.docker
     ports:
-      - "3110:3110"
+      - "${POP3_SERVER_PORT}:3110"
       - "${SMTP_SERVER_PORT}:3025"
       - "${IMAP_SERVER_PORT}:3143"
-      - "3465:3465"
-      - "3993:3993"
-      - "3995:3995" 
+      - "${IMAPS_SERVER_PORT}:3993"
+      - "${SMTPS_SERVER_PORT}:3465"
+      - "${POP3S_SERVER_PORT}:3995"
     networks:
       mail_network:
         aliases:
-          - ${MAIL_SERVER_HOSTNAME}
-          - ${SMTP_SERVER_HOSTNAME}
-          - ${IMAP_SERVER_HOSTNAME}
+          - mail.docker
+          - smtp.docker
+          - imap.docker
     healthcheck:
       test: "nc -z localhost 3025 && nc -z localhost 3143"
       interval: 5s
